@@ -1,0 +1,51 @@
+#! /bin/sh
+pgrep -x sxhkd > /dev/null || sxhkd &
+
+bspc monitor -d I II III IV V VI VII VIII IX X
+
+bspc config focus_follows_pointer true
+
+bspc config border_width         3
+bspc config window_gap          40
+
+bspc config split_ratio          0.52
+bspc config borderless_monocle   true
+bspc config gapless_monocle      true
+
+# Border colors
+bspc config active_border_color '#3a0d74'
+bspc config normal_border_color '#3a0d74'
+bspc config focused_border_color '#914fe7'
+
+bspc rule -a Gimp desktop='^8' state=floating follow=on
+bspc rule -a Chromium desktop='^2'
+bspc rule -a mplayer2 state=floating
+bspc rule -a Kupfer.py focus=on
+bspc rule -a Screenkey manage=off
+bspc rule -a ncmpcpp state=pseudo_tiled rectangle=2000x1300+0+0
+
+# Run remove_floating_borders script
+bspc config external_rules_command ~/.script/remove_floating_borders.sh
+
+#bspc rule -a Zoom desktop='^8'
+
+# Patches for java applications like jetbarins IDE
+wmname LG3D
+
+# Set the wallpaper
+nitrogen --restore &
+
+# Autolaunch polybar script
+sh ~/.config/polybar/launch.sh
+
+# Autolaunch picom
+picom &
+
+killall mopidy
+mopidy &
+
+# Autolaunch applets (system tray)
+nm-applet &
+blueman-applet &
+fcitx &
+#conky &
